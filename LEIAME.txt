@@ -19,5 +19,8 @@ Desativar ambiente
 
 
 git add .
-git commit -m "third commit" 
+git commit -m "first commit" 
 git push -u origin main
+
+primeira vez:
+git branch -M main

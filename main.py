@@ -71,35 +71,38 @@ despesas = load_data('despesas', id_deputado_selecionado)
 
 despesas = pd.DataFrame(despesas['dados'])
 
+if not despesas.empty:
 
-# Seleciona apenas as colunas desejadas
-colunas_desejadas = ["dataDocumento", "valorDocumento", "tipoDespesa", "nomeFornecedor"]
-df_filtrado = despesas[colunas_desejadas]
+    # Seleciona apenas as colunas desejadas
+    colunas_desejadas = ["dataDocumento", "valorDocumento", "tipoDespesa", "nomeFornecedor"]
+    df_filtrado = despesas[colunas_desejadas]
 
-# Converte a coluna 'Data' para datetime para garantir ordenação correta
-df_filtrado['dataDocumento'] = pd.to_datetime(df_filtrado['dataDocumento'])
+    # Converte a coluna 'Data' para datetime para garantir ordenação correta
+    df_filtrado['dataDocumento'] = pd.to_datetime(df_filtrado['dataDocumento'])
 
-# Formata a coluna 'Data' para o formato dd/mm/yy
-df_filtrado['dataDocumento'] = df_filtrado['dataDocumento'].dt.strftime('%d/%m/%y')
+    # Formata a coluna 'Data' para o formato dd/mm/yy
+    df_filtrado['dataDocumento'] = df_filtrado['dataDocumento'].dt.strftime('%d/%m/%y')
 
-# Calcula soma das colunas numéricas
-total_gasto = df_filtrado['valorDocumento'].sum()
-total_formatado = f"R$ {total_gasto:,.2f}".replace(',', 'v').replace('.', ',').replace('v', '.')
+    # Calcula soma das colunas numéricas
+    total_gasto = df_filtrado['valorDocumento'].sum()
+    total_formatado = f"R$ {total_gasto:,.2f}".replace(',', 'v').replace('.', ',').replace('v', '.')
 
-# Formata a coluna Preço como dinheiro (R$ xx,xx)
-df_filtrado['valorDocumento'] = df_filtrado['valorDocumento'].apply(lambda x: f'R$ {x:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.'))
+    # Formata a coluna Preço como dinheiro (R$ xx,xx)
+    df_filtrado['valorDocumento'] = df_filtrado['valorDocumento'].apply(lambda x: f'R$ {x:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.'))
 
-# Ordena o DataFrame pela coluna 'Data'
-df_ordenado = df_filtrado.sort_values(by='dataDocumento')
+    # Ordena o DataFrame pela coluna 'Data'
+    df_ordenado = df_filtrado.sort_values(by='dataDocumento')
 
-# Renomear 4 colunas antigas para novos nomes
-df_ordenado = df_ordenado.rename(columns={
-    "dataDocumento": "Data",
-    "valorDocumento": "Valor",
-    "tipoDespesa": "Tipo de Despesa",
-    "nomeFornecedor": "Nome do Fornecedor"
-})
+    # Renomear 4 colunas antigas para novos nomes
+    df_ordenado = df_ordenado.rename(columns={
+        "dataDocumento": "Data",
+        "valorDocumento": "Valor",
+        "tipoDespesa": "Tipo de Despesa",
+        "nomeFornecedor": "Nome do Fornecedor"
+    })
 
-st.write('Total gasto:', total_formatado)
+    st.write('Total gasto:', total_formatado)
 
-st.table(df_ordenado)
+    st.table(df_ordenado)
+else:
+    st.write("Nenhuma despesa encontrada para este deputado.")
