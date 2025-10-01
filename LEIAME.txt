@@ -1,0 +1,23 @@
+Crie um ambiente virtual
+>python -m venv streamlitdadoscamara
+
+Ativar a execução no windows
+>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+Entrar no ambiente com as bibliotecas instaladas
+>streamlitdadoscamara\Scripts\activate
+
+Instale as bibliotecas
+>pip install -r .\requirements.txt
+
+Rodar o streamlit
+>python -m streamlit run .\main.py
+
+Desativar ambiente
+>deactivate
+
+
+
+git add .
+git commit -m "third commit" 
+git push -u origin main
